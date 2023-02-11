@@ -1,0 +1,39 @@
+/*Radio Button*/
+label.radio {
+  cursor: pointer;
+  width: 100%;
+}
+
+label.radio input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+label.radio span {
+  padding: 12px 14px;
+  width: 100%;
+  text-align: center;
+  border: 2px solid #697886;
+  display: inline-block;
+  color: #697886;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+label.radio input:checked + span {
+  border-color: #697886;
+  background-color: #697886;
+  color: #fff;
+}
+
+.disabled {
+  opacity: 0.4;
+  cursor: default !important;
+  pointer-events: none;
+}
+
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css");

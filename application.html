@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>おーぷんAI文字起こし</title>
+
+    <!-- bootstrap -->
+    <link
+      href="./vendor/application/bootstrap5/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="./vendor/application/bootstrap5/bootstrap.min.js"></script>
+
+    <!-- yummy-->
+    <link href="./vendor/application/yummy/main.css" rel="stylesheet" />
+    <script src="./vendor/application/yummy/main.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Favicons -->
+    <link href="./vendor/lp/yummy/assets/img/favicon.png" rel="icon" />
+
+    <!-- Drag and Drop file-->
+    <link
+      href="./vendor/application/drag-and-drop-file/style.css"
+      rel="stylesheet"
+    />
+    <script src="./vendor/application/drag-and-drop-file/script.js"></script>
+
+    <!-- Radio Buttons -->
+    <link
+      href="./vendor/application/radio-buttons/style.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Select2 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css"
+    />
+    <link rel="stylesheet" href="./vendor/application/select2/syle.css" />
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="./vendor/application/select2/script.js"></script>
+
+    <!-- whisper -->
+    <script
+      type="text/javascript"
+      src="./vendor/application/main/whisper/helpers.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="./vendor/application/main/whisper/main.js"
+    ></script>
+
+    <!-- ffmpeg -->
+    <script src="./vendor/application/main/ffmpeg/ffmpeg.min.js"></script>
+
+    <script type="module">
+      // whisperとffmpegの制御モジュール
+      import { startMain } from "./vendor/application/main/main.js"
+      window.onload = () => {
+        startMain()
+        // デザイン系の前処理
+        createSelect2()
+        createDragAndDropFile()
+      }
+    </script>
+  </head>
+
+  <body style="background: #f7f7f7">
+    <header
+      id="header"
+      class="header fixed-top d-flex align-items-center shadow-sm"
+      style="height: 60px"
+    >
+      <div class="container d-flex align-items-center justify-content-between">
+        <a
+          href="index.html"
+          class="logo d-flex align-items-center me-auto me-lg-0"
+          style="text-decoration: none"
+        >
+          <h1 style="font-size: 22px">おーぷんAI文字起こし</h1>
+        </a>
+
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li>
+              <a
+                href="https://twitter.com/ritoweb0321"
+                style="text-decoration: none"
+              >
+                問い合わせ</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <!-- .navbar -->
+        <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+        <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+      </div>
+    </header>
+
+    <div id="preloader"></div>
+
+    <div class="container">
+      <section id="application" style="overflow: inherit">
+        <div class="card p-3 rounded shadow">
+          <!-- AIモード -->
+          <div class="mb-3">
+            <h4>AIモード</h4>
+            <form>
+              <div class="d-flex flex-row gap-2">
+                <label class="radio" title="速度重視。精度はよくありません。">
+                  <input
+                    type="radio"
+                    id="radioHighSpeed"
+                    name="gender"
+                    value="designs"
+                    checked
+                  />
+                  <span><i class="fa fa-truck-fast"></i> 高速</span>
+                </label>
+                <label class="radio" title="精度重視。速度はおそいです。">
+                  <input
+                    type="radio"
+                    id="radioHighAccuracy"
+                    name="gender"
+                    value="FEMALE"
+                  />
+                  <span><i class="fa fa-brain"></i> 高精度</span>
+                </label>
+              </div>
+              <!-- プログレスバー -->
+              <div
+                id="progress-load-model"
+                class="progress my-2"
+                style="display: none"
+              >
+                <div
+                  class="progress-bar progress-bar-striped"
+                  style="background-color: #5199bd !important"
+                  role="progressbar"
+                  aria-valuenow="0"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  読み込み中...
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- file drag adn drop-->
+          <div class="mb-2">
+            <h4>音声ファイル</h4>
+            <fieldset
+              class="upload_dropZone text-center mb-3 p-4"
+              title="avi, mp4, mov, wmv, mkv, flv, wav, mp3, aac等の音声ファイルを選択してください。"
+            >
+              <legend class="visually-hidden">Image uploader</legend>
+
+              <svg class="upload_svg" width="60" height="60" aria-hidden="true">
+                <use href="#icon-imageUpload"></use>
+              </svg>
+
+              <p class="small my-2">
+                ここに動画または音声ファイルをドロップしてください。<br />
+                (avi, mp4, mov, wmv, mkv, flv, wav, mp3, aac等)
+              </p>
+
+              <input
+                id="upload_image_background"
+                data-post-name="image_background"
+                data-post-url="https://someplace.com/image/uploads/backgrounds/"
+                class="position-absolute invisible"
+                type="file"
+                accept="audio/*, video/*"
+              />
+
+              <label class="btn btn-upload mb-3" for="upload_image_background"
+                >ファイルを選択</label
+              >
+
+              <div
+                class="upload_gallery d-flex flex-wrap justify-content-center gap-3 mb-0"
+              ></div>
+            </fieldset>
+
+            <!-- プログレスバー -->
+            <div
+              id="progress-transcode"
+              class="progress my-2"
+              style="display: none"
+            >
+              <div
+                class="progress-bar progress-bar-striped"
+                style="background-color: #5199bd !important"
+                role="progressbar"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                処理中...
+              </div>
+            </div>
+
+            <svg style="display: none">
+              <defs>
+                <symbol
+                  id="icon-imageUpload"
+                  clip-rule="evenodd"
+                  viewBox="0 0 96 96"
+                >
+                  <path
+                    d="M47 6a21 21 0 0 0-12.3 3.8c-2.7 2.1-4.4 5-4.7 7.1-5.8 1.2-10.3 5.6-10.3 10.6 0 6 5.8 11 13 11h12.6V22.7l-7.1 6.8c-.4.3-.9.5-1.4.5-1 0-2-.8-2-1.7 0-.4.3-.9.6-1.2l10.3-8.8c.3-.4.8-.6 1.3-.6.6 0 1 .2 1.4.6l10.2 8.8c.4.3.6.8.6 1.2 0 1-.9 1.7-2 1.7-.5 0-1-.2-1.3-.5l-7.2-6.8v15.6h14.4c6.1 0 11.2-4.1 11.2-9.4 0-5-4-8.8-9.5-9.4C63.8 11.8 56 5.8 47 6Zm-1.7 42.7V38.4h3.4v10.3c0 .8-.7 1.5-1.7 1.5s-1.7-.7-1.7-1.5Z M27 49c-4 0-7 2-7 6v29c0 3 3 6 6 6h42c3 0 6-3 6-6V55c0-4-3-6-7-6H28Zm41 3c1 0 3 1 3 3v19l-13-6a2 2 0 0 0-2 0L44 79l-10-5a2 2 0 0 0-2 0l-9 7V55c0-2 2-3 4-3h41Z M40 62c0 2-2 4-5 4s-5-2-5-4 2-4 5-4 5 2 5 4Z"
+                  />
+                </symbol>
+              </defs>
+            </svg>
+          </div>
+
+          <!-- 言語選択 -->
+          <div class="mb-3">
+            <h4>言語</h4>
+            <select
+              class="form-select"
+              id="language"
+              data-placeholder="言語を選択して下さい。"
+              title="音声ファイルの言語を選択して下さい。"
+            >
+              <option value="ja" checked>日本語</option>
+              <option value="en">英語</option>
+            </select>
+          </div>
+
+          <!-- 文字起こし -->
+          <div class="mb-3">
+            <h4>文字起こし</h4>
+            <div class="mb-2">
+              <form>
+                <div class="d-flex flex-row gap-2">
+                  <label
+                    class="radio"
+                    title="文字起こし中はパソコンが重くなることがあります。何も操作せずに待つことをおすすめしています。"
+                  >
+                    <input
+                      type="button"
+                      id="btnTranscribe"
+                      name="gender"
+                      value="designs"
+                    />
+                    <span
+                      style="
+                        border-color: #1a98d5;
+                        background-color: #1a98d5;
+                        color: #fff;
+                      "
+                    >
+                      <div
+                        id="spinnerTranscribe"
+                        class="spinner-border text-light spinner-border-sm"
+                        role="status"
+                      >
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                      <i class="fa fa-file-audio"></i> 文字起こし開始</span
+                    >
+                  </label>
+                  <label
+                    class="radio"
+                    title="文字起こし済のテキストのダウンロードを行います。文字起こしの途中でもダウンロードできます。"
+                  >
+                    <input
+                      type="button"
+                      id="btnDownload"
+                      name="gender"
+                      value="FEMALE"
+                    />
+                    <span
+                      style="
+                        border-color: #1a98d5;
+                        background-color: #1a98d5;
+                        color: #fff;
+                      "
+                    >
+                      <i class="fa fa-download"></i> ダウンロード</span
+                    >
+                  </label>
+                </div>
+              </form>
+            </div>
+
+            <div id="progressTranscriptionArea" style="display: none">
+              <div id="progressTranscription" class="progress my-2">
+                <div
+                  class="progress-bar progress-bar-striped"
+                  style="background-color: #5199bd !important; width: 0%"
+                  role="progressbar"
+                  aria-valuenow="0"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  処理中...
+                </div>
+              </div>
+
+              <div>
+                <span>残りおよそ: </span>
+                <span id="progressTranscriptionTimeLeft">??時間??分??秒</span>
+              </div>
+            </div>
+
+            <!-- console log -->
+            <div
+              class="rounded border p-1"
+              style="
+                color: #6c757d;
+                background: #f3f5f7;
+                font-size: 0.875em;
+                height: 400px;
+                overflow: auto;
+              "
+            >
+              <p class="lh-sm" id="logTranscription"></p>
+            </div>
+
+            <div class="progress my-2" hidden>
+              <div
+                class="progress-bar progress-bar-striped w-75"
+                style="background-color: #5199bd !important"
+                role="progressbar"
+                aria-valuenow="75"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+      <div class="container">
+        <div class="copyright">
+          &copy; Copyright <strong><span>ritogk</span></strong
+          >. All Rights Reserved
+        </div>
+        <div class="credits">
+          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+      </div>
+    </footer>
+    <!-- End Footer -->
+  </body>
+</html>

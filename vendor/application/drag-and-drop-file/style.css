@@ -1,0 +1,46 @@
+/* Bootstrap 5 CSS and icons included */
+:root {
+  --colorPrimaryNormal: #697886;
+  --colorPrimaryDark: #586173;
+  --colorPrimaryGlare: #77839c;
+  --colorPrimaryHalf: #b4b9c4;
+  --colorPrimaryQuarter: #d9dce1;
+  --colorPrimaryEighth: #ececf0;
+  --colorPrimaryPale: #f3f5f7;
+  --colorPrimarySeparator: #f3f5f7;
+  --colorPrimaryOutline: #ececf0;
+  --colorButtonNormal: #697886;
+  --colorButtonHover: #77839c;
+  --colorLinkNormal: #586173;
+  --colorLinkHover: #77839c;
+}
+
+.upload_dropZone {
+  color: #0f3c4b;
+  background-color: var(--colorPrimaryPale, #c8dadf);
+  outline: 2px dashed var(--colorPrimaryHalf, #c1ddef);
+  outline-offset: -12px;
+  transition: outline-offset 0.2s ease-out, outline-color 0.3s ease-in-out,
+    background-color 0.2s ease-out;
+}
+.upload_dropZone.highlight {
+  outline-offset: -4px;
+  outline-color: var(--colorPrimaryNormal, #0576bd);
+  background-color: var(--colorPrimaryEighth, #c8dadf);
+}
+.upload_svg {
+  fill: var(--colorPrimaryNormal, #0576bd);
+}
+.btn-upload {
+  color: #fff;
+  background-color: var(--colorPrimaryNormal);
+}
+.btn-upload:hover,
+.btn-upload:focus {
+  color: #fff;
+  background-color: var(--colorPrimaryGlare);
+}
+.upload_img {
+  width: calc(33.333% - (2rem / 3));
+  object-fit: contain;
+}
