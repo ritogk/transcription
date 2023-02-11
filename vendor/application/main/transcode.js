@@ -27,6 +27,7 @@ export class Transcode {
   }
 
   #transcode = async ({ target: { files } }) => {
+    document.getElementById("spinnerTranscode").style.display = ""
     // const message = document.getElementById("message")
     const extension = files[0].name.split(".")[1]
     const name = `file.${extension}`

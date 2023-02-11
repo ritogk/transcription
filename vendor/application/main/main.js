@@ -21,7 +21,9 @@ export const startMain = async () => {
     document.getElementById("btnDownload").parentElement
   btnDownloadAreaElement.classList.add("disabled")
 
-  // 文字起こし開始ボタンのスピナーを非表示にする
+  // スピナーを非表示にする
+  const spinnerTranscode = document.getElementById("spinnerTranscode")
+  spinnerTranscode.style.display = "none"
   const spinnerTranscribe = document.getElementById("spinnerTranscribe")
   spinnerTranscribe.style.display = "none"
 
@@ -66,6 +68,7 @@ export const startMain = async () => {
       btnTranscribeAreaElement.classList.remove("disabled")
     }
     console.log("完了")
+    spinnerTranscode.style.display = "none"
   }
   // メディアファイル変換用のプログレスバー
   const progressTranscodeElement = document.getElementById("progress-transcode")
