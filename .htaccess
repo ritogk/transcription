@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_headers.c>
+      Header set hogehoge "1234567890"
+    </IfModule>
+</IfModule>
