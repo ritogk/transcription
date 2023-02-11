@@ -93,6 +93,12 @@ const createDragAndDropFile = () => {
 
   // Handle both selected and dropped files
   const handleFiles = (dataRefs) => {
+    if (dataRefs.files[0].size > 200000000) {
+      alert("ファイルサイズが2Gを超えています。")
+      preventDefaults()
+      return
+    }
+
     let files = [...dataRefs.files]
     // Remove unaccepted file types
     files = files.filter((item) => {
