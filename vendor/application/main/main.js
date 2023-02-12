@@ -22,6 +22,12 @@ export const startMain = async () => {
   btnDownloadAreaElement.classList.add("disabled")
 
   // スピナーを非表示にする
+  const spinnerAiModelFast = document.getElementById("spinnerAiModelFast")
+  spinnerAiModelFast.style.display = "none"
+  const spinnerAiModelHightAccuracy = document.getElementById(
+    "spinnerAiModelHightAccuracy"
+  )
+  spinnerAiModelHightAccuracy.style.display = "none"
   const spinnerTranscode = document.getElementById("spinnerTranscode")
   spinnerTranscode.style.display = "none"
   const spinnerTranscribe = document.getElementById("spinnerTranscribe")
@@ -39,6 +45,8 @@ export const startMain = async () => {
   }
   // モデールロード後のコールバック関数
   const completeFunc = () => {
+    spinnerAiModelFast.style.display = "none"
+    spinnerAiModelHightAccuracy.style.display = "none"
     progressLoadModel.style.display = "none"
     completedLoadModel = true
     if (completedLoadModel && completedTranscode) {
@@ -52,11 +60,13 @@ export const startMain = async () => {
   // 「高速」ボタン
   const radioHighSpeed = document.getElementById("radioHighSpeed")
   radioHighSpeed.addEventListener("click", () => {
+    spinnerAiModelFast.style.display = ""
     transcription.loadModel("base", onProgressLoadModel, completeFunc)
   })
   // 「高精度」ボタン
   const radioHighAccuracy = document.getElementById("radioHighAccuracy")
   radioHighAccuracy.addEventListener("click", () => {
+    spinnerAiModelHightAccuracy.style.display = ""
     transcription.loadModel("small", onProgressLoadModel, completeFunc)
   })
 

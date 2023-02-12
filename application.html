@@ -144,6 +144,7 @@
           <!-- AIモード -->
           <div class="mb-3">
             <h4>AIモード</h4>
+
             <form>
               <div class="d-flex flex-row gap-2">
                 <label class="radio" title="速度重視。精度はよくありません。">
@@ -154,8 +155,16 @@
                     value="designs"
                     checked
                   />
-                  <span><i class="fa fa-truck-fast"></i> 高速</span>
+                  <span>
+                    <div
+                      id="spinnerAiModelFast"
+                      class="spinner-border text-light spinner-border-sm"
+                      role="status"
+                    ></div>
+                    <i class="fa fa-truck-fast"></i> 高速</span
+                  >
                 </label>
+
                 <label class="radio" title="精度重視。速度はおそいです。">
                   <input
                     type="radio"
@@ -163,7 +172,14 @@
                     name="gender"
                     value="FEMALE"
                   />
-                  <span><i class="fa fa-brain"></i> 高精度</span>
+                  <span
+                    ><div
+                      id="spinnerAiModelHightAccuracy"
+                      class="spinner-border text-light spinner-border-sm"
+                      role="status"
+                    ></div>
+                    <i class="fa fa-brain"></i> 高精度</span
+                  >
                 </label>
               </div>
               <!-- プログレスバー -->
