@@ -2989,7 +2989,7 @@ var PThread = {
     }
   },
   initMainThread: function () {
-    var pthreadPoolSize = 12
+    var pthreadPoolSize = 16
     while (pthreadPoolSize--) {
       PThread.allocateUnusedWorker()
     }
