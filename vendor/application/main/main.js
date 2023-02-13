@@ -103,6 +103,13 @@ export const startMain = async () => {
   const transcribeStartTime = Date.now()
   const btnTranscribeElement = document.getElementById("btnTranscribe")
   btnTranscribeElement.addEventListener("click", async (e) => {
+    if (
+      !window.confirm(
+        "文字起こし中はPCのパフォーマンスが低下する可能性があります。\n実行してもよろしいですか？"
+      )
+    ) {
+      return
+    }
     spinnerTranscribe.style.display = ""
     // 変換したオーディオファイルのblobUrl
     const audioBlobUrl = transcode.getTranscodedBlobUrl()
