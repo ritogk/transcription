@@ -18,8 +18,12 @@ jobs:
       - name: s3のバケットを空にする
         working-directory: ./
         run: |
-          aws s3 rm s3://app-transcription --recursive
-      - name: s3にアップロード
+          aws s3 rm s3://${{AWS_S3_BUCKET}} --recursive
+      - name: s3にファイルをアップロード
         working-directory: ./
         run: |
-          aws s3 cp ./ s3://app-transcription --recursive
+          aws s3 cp ./ s3://${{AWS_S3_BUCKET}} --recursive
+      - name: CloudFrontのキャッシュをクリア
+        working-directory: ./
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ AWS_CLOUDFRONT_ID }} --paths "/*"
