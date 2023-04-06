@@ -23,4 +23,5 @@ jobs:
       - name: s3へのアップロード
         working-directory: ./
         run: |
-          aws s3 cp test.file s3://test-ritogk
+          aws s3 rm s3://app-transcription --recursive
+      # aws s3 cp test.file s3://test-ritogk
