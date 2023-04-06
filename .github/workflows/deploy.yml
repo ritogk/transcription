@@ -15,13 +15,11 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
-      # ファイル作成
-      - name: ファイル作成
-        working-directory: ./
-        run: |
-          touch test.file
-      - name: s3へのアップロード
+      - name: s3のバケットを空にする
         working-directory: ./
         run: |
           aws s3 rm s3://app-transcription --recursive
-      # aws s3 cp test.file s3://test-ritogk
+      - name: s3にアップロード
+        working-directory: ./
+        run: |
+          aws s3 cp ./ s3://app-transcription --recursive
