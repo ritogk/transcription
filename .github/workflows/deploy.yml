@@ -24,7 +24,7 @@ jobs:
         working-directory: ./
         run: |
           aws s3 cp ./ s3://${{ secrets.AWS_S3_BUCKET }}/root --recursive
-          aws s3 cp ./ s3://${{ secrets.AWS_S3_BUCKET }}/githuab-actions/whisper-models s3://${{ secrets.AWS_S3_BUCKET }}/root/vendor/whisper/models --recursive
+          aws s3 cp ./ s3://${{ secrets.AWS_S3_BUCKET }}/githuab-actions/whisper-models s3://${{ secrets.AWS_S3_BUCKET }}/root/vendor/application/main/whisper/models --recursive
       - name: CloudFrontのキャッシュをクリア
         working-directory: ./
         run: |
