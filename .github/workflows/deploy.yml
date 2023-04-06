@@ -1,8 +1,8 @@
-name: Build React on S3
+name: Deploy
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "*"
 jobs:
   build:
     runs-on: ubuntu-latest
