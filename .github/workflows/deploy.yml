@@ -16,14 +16,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
       - name: s3のバケットを空にする
-        working-directory: ./
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         run: |
-          aws s3 rm s3://${{AWS_S3_BUCKET}} --recursive
+          aws s3 rm s3://${{ secrets.AWS_S3_BUCKET }} --recursive
       - name: s3にファイルをアップロード
         working-directory: ./
         run: |
-          aws s3 cp ./ s3://${{AWS_S3_BUCKET}} --recursive
+          aws s3 cp ./ s3://${{ secrets.AWS_S3_BUCKET }} --recursive
       - name: CloudFrontのキャッシュをクリア
         working-directory: ./
         run: |
-          aws cloudfront create-invalidation --distribution-id ${{ AWS_CLOUDFRONT_ID }} --paths "/*"
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_ID }} --paths "/*"
