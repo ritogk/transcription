@@ -9,7 +9,7 @@ https://transcription.homisoftware.net/index.html
 
 ## 良い点
 メディアファイルの変換, 文字起こしの処理をサーバではなくブラウザで実行しているのでサーバー代がかからない。  
-利用側はlinuxの知識無しでwhisperが使える。
+利用側はlinuxの知識無しで最新の文字起こしが使える。
 
 ## 悪い点
 CのコードをWebAssemblyにコンパイルしたコードを使っているためメンテにCの知識が必要。  
