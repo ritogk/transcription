@@ -19,6 +19,7 @@ CのコードをWebAssemblyにコンパイルしたコードを使っている�
 ### 1.インフラ生成と更新
 ```
 cd cdk
+cp .env.base .env
 cdk deploy --all
 ```
 
