@@ -8,9 +8,29 @@ https://transcription.homisoftware.net/index.html
 [whisper](https://github.com/ggerganov/whisper.cpp/tree/master/examples/whisper.wasm)と[ffmepg](https://github.com/ffmpegwasm/ffmpeg.wasm)をブラウザで動かしてフロントエンド完結で文字起こしができるアプリケーション
 
 ## 良い点
-メディアファイルの変換, 文字起こしの処理をサーバではなくブラウザで実行しているのでサーバー代がかからない。  
+メディアファイルの変換と文字起こしの処理をサーバではなくブラウザで実行しているのでサーバー代がかからない。  
 利用側はlinuxの知識無しで最新の文字起こしが使える。
 
 ## 悪い点
 CのコードをWebAssemblyにコンパイルしたコードを使っているためメンテにCの知識が必要。  
 フロント側でほぼすべて完結しているので簡単にアプリがパクられる。
+
+## setup
+### 1.インフラ生成と更新
+```
+cd cdk
+cdk deploy --all
+```
+
+### 2.ファイルを配置
+1. src配下のファイルをバケットに突っ込む  
+2. modelsはファイルサイズが大きいのでここから持ってきて手動で入れる(ファイルサイズがお大きいのでgit管理はしない。)  
+https://huggingface.co/ggerganov/whisper.cpp/tree/main  
+3. CloudFrontのキャッシュを更新  
+
+## インフラのあとかたずけ
+1. バケットの中身を空にする  
+```
+cd cdk
+cdk destroy --all
+```
