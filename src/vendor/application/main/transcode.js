@@ -29,7 +29,7 @@ export class Transcode {
 
   #transcode = async ({ target: { files } }) => {
     document.getElementById("spinnerTranscode").style.display = ""
-    const extension = files[0].name.split(".")[1]
+    const extension = files[0].name.slice(files[0].name.lastIndexOf(".") + 1)
     const name = `file.${extension}`
     this.#ffmpeg.FS("writeFile", name, await this.#fetchFile(files[0]))
     await this.#ffmpeg.run(
