@@ -7,6 +7,9 @@ https://transcription.homisoftware.net/index.html
 ## このアプリケーションは何？
 [whisper](https://github.com/ggerganov/whisper.cpp/tree/master/examples/whisper.wasm)と[ffmepg](https://github.com/ffmpegwasm/ffmpeg.wasm)をブラウザで動かしてフロントエンド完結で文字起こしができるアプリケーション
 
+## 技術記事
+https://zenn.dev/homing/articles/9ea769ab12f310
+
 ## 良い点
 メディアファイルの変換と文字起こしの処理をサーバではなくブラウザで実行しているのでサーバー代がかからない。  
 利用側はlinuxの知識無しで最新の文字起こしが使える。
